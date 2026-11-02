@@ -6,5 +6,9 @@ class Admin < ApplicationRecord
   # Multi attachment support
   mount_uploaders :images, AvatarUploader
   process_in_background :images
-  serialize :images, JSON
+  if ActiveRecord.gem_version >= Gem::Version.new('7.1')
+    serialize :images, coder: JSON
+  else
+    serialize :images, JSON
+  end
 end
